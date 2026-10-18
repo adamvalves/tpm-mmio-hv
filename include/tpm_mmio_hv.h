@@ -1,5 +1,4 @@
 #ifndef TPM_MMIO_HV_H
-#ifndef TPM_MMIO_HV_H
 #define TPM_MMIO_HV_H
 
 #include <stdint.h>

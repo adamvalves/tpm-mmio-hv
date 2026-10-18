@@ -1,0 +1,30 @@
+name: Build & Static Analysis
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build Static Library (x64 Release)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Solution
+        run: |
+          msbuild tpm-mmio-hv.sln /p:Configuration=Release /p:Platform=x64
+
+      - name: Verify Architecture Headers
+        run: |
+          if (-not (Test-Path "include/tpm_mmio_hv.h")) {
+              Write-Error "tpm_mmio_hv.h not found"
+          }
+          Write-Host "Build verification completed successfully."
